@@ -3,5 +3,27 @@
 		{
 			"path": "."
 		}
-	]
+	],
+	"settings": {
+		"python.analysis.typeCheckingMode": "basic",
+
+		"extensions.recommendations": [
+			"ms-python.python",
+			"ms-python.vscode-pylance",
+		]
+	},
+
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Python: Main",
+				"type": "python",
+				"request": "launch",
+				"program": "${file}",
+				"console": "integratedTerminal"
+			}
+		],
+		"compounds": []
+	}
 }
