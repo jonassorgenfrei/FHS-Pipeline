@@ -23,6 +23,7 @@ def load_data():
     print(json.dumps(data, indent=4))
 
 
-write_data(42)
+if __name__ == '__main__':
+    write_data(42)
 
-load_data()
+    load_data()
