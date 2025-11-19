@@ -16,4 +16,13 @@ from fhs_maya import startUp
 
 startUp.startup()
 ```
-NOTE replace the pathes to this directory.
+NOTE replace the paths to this directory in sys.path.
+
+## Houdini Installation Instruction
+Copy the file houdini/fhs_pipeline.json into the folder:
+Documents/Houdini<version>/packages
+and adjust in the file the line:
+```json
+  "FHS_PIPELINE": "D:/Documents/Development/FH_Salzburg/pipeline"
+```
+to the location where this folder is. 
