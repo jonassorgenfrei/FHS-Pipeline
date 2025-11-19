@@ -1,0 +1,15 @@
+{
+    "env": [
+        {
+            "FHS_PIPELINE": "D:/Documents/Development/FH_Salzburg/pipeline"
+        },
+        {
+            "PYTHONPATH": {
+                "value": "$FHS_PIPELINE/python",
+                "method": "append"
+            }
+        }
+    ],
+    "path": "$FHS_PIPELINE/houdini",
+    "version": "1.0"
+}
