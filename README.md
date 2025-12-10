@@ -1,7 +1,7 @@
 # FHS-Pipeline
 Pipeline Repository for the FH Salzburg class Pipeline WS25
 
-![pipeline_concept](docs\fig\pipeline_concept.png)
+![pipeline_concept](docs/fig/pipeline_concept.png)
 ## Maya Installation Instruction
 To install the toolset for maya create a userSetup.py file in 
 `Documents/maya/<version>/scripts` and paste the follow code:
