@@ -37,3 +37,8 @@ If you get a policy error in PowerShell, run:
 ```powershell 
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
+
+Install PySide6 
+```
+pip install PySide6
+```
