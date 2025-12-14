@@ -9,4 +9,8 @@
     <script scriptType="python"><![CDATA[from fhs_houdini import core
 core.create_outs()]]></script>
   </tool>
+
+  <toolshelf name="fhsShelf" label="FHSShelf">
+    <memberTool name="shotManager"/>
+  </toolshelf>
 </shelfDocument>

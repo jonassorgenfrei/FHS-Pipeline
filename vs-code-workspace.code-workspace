@@ -2,17 +2,22 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "C:/Users/fhs48394/Documents/Projects"
 		}
 	],
 	"settings": {
 		"python.analysis.typeCheckingMode": "basic",
-
+		"python.analysis.extraPaths": [
+			"C:/Users/fhs48394/Documents/FHS-Pipeline/python",
+			"C:/Program Files/Side Effects Software/Houdini 20.5.684/houdini/python3.11libs"
+		],
 		"extensions.recommendations": [
 			"ms-python.python",
 			"ms-python.vscode-pylance",
 		]
 	},
-
 	"launch": {
 		"version": "0.2.0",
 		"configurations": [

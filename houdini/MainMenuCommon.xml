@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mainMenu>
+  <menuBar>
+  <subMenu id="FHS">
+    <label>FHS</label>
+    <scriptItem id="shotManager">
+      <label>Shot Manager</label>
+      <scriptCode>
+import hou
+from fhs_houdini.shot_manager import Houdini_ShotManager
+
+hou.session.hou_sm = Houdini_ShotManager()
+hou.session.hou_sm.show()
+      </scriptCode>
+    </scriptItem>
+  </subMenu>
+  </menuBar>
+</mainMenu>

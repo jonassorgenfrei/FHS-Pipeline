@@ -1,16 +1,24 @@
 import sys
-from PySide6 import QtWidgets, QtCore, QtGui
+try:
+    from PySide6 import QtWidgets, QtCore, QtGui
+except ModuleNotFoundError:
+    from PySide2 import QtWidgets, QtCore, QtGui
 from fhs.shotManager.file_system import create_shot_structure
-
+from fhs.shotManager.database import Database
 
 class ShotManager(QtWidgets.QWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
+        self.database = Database()
+
         self.setWindowTitle("FHS Shot Manager")
         self.instruction_label = QtWidgets.QLabel(
             "FHS Shot Manager - Create New Shot", self
         )
+
+        self.shot_list = QtWidgets.QListWidget(self)
+        self.shot_list.addItems(self.database.get_shot_names())     
 
         self.shot_label = QtWidgets.QLabel("Enter Shot Name:", self)
         self.shot_name = QtWidgets.QLineEdit(self)
@@ -36,6 +44,7 @@ class ShotManager(QtWidgets.QWidget):
         layout = QtWidgets.QVBoxLayout()
 
         layout.addWidget(self.instruction_label)
+        layout.addWidget(self.shot_list)
         layout.addItem(spacer)
         layout.addWidget(self.seq_label)
         layout.addWidget(self.seq_name)
@@ -70,6 +79,8 @@ class ShotManager(QtWidgets.QWidget):
         """
         try:
             shot_directory: str = create_shot_structure(shot_name, seq_name)
+            workfile = self.create_workfile(shot_name, shot_directory)
+            self.insert_shot(shot_name, 1001, 1010)
         except ValueError as e:
             QtWidgets.QMessageBox.warning(self, "Input Error", str(e))
             return False
@@ -80,7 +91,15 @@ class ShotManager(QtWidgets.QWidget):
             f"Shot '{seq_name}_{shot_name}' created successfully at \n {shot_directory}!",
         )
         return True
+    
+    def create_workfile(self, shot_name:str, shot_directory:str) -> str:
+        """
+        This function needs to be implemented in the dcc widget
+        """
+        return ""
 
+    def insert_shot(self, shot_name:str, start_frame:int, end_frame:int):
+        self.database.create_shot(shot_name, start_frame, end_frame)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
