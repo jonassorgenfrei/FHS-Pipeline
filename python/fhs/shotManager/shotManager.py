@@ -16,17 +16,26 @@ class ShotManager(QtWidgets.QWidget):
         self.database = Database()
 
         self.setWindowTitle("FHS Shot Manager")
-        self.instruction_label = QtWidgets.QLabel(
-            "FHS Shot Manager - Create New Shot", self
+        self.shotlist_label = QtWidgets.QLabel(
+            "Shots", self
         )
 
         self.shot_list = QtWidgets.QListWidget(self)
-        self.shot_list.addItems(self.database.get_shot_names())     
+        self.shot_list.addItems(self.database.get_shot_names())
+        
+        self.workfilelist_label = QtWidgets.QLabel(
+            "Shot Workfiles", self
+        )
+        self.workfile_list = QtWidgets.QListWidget(self)
 
-        self.seq_label = QtWidgets.QLabel("Enter Sequence Name:", self)
+        self.instruction_label = QtWidgets.QLabel(
+            "Create New Shot", self
+        )
+
+        self.seqname_label = QtWidgets.QLabel("Enter Sequence Name:", self)
         self.seq_name = QtWidgets.QLineEdit(self)
         
-        self.shot_label = QtWidgets.QLabel("Enter Shot Name:", self)
+        self.shotname_label = QtWidgets.QLabel("Enter Shot Name:", self)
         self.shot_name = QtWidgets.QLineEdit(self)
         
         range_layout = QtWidgets.QHBoxLayout()
@@ -61,13 +70,16 @@ class ShotManager(QtWidgets.QWidget):
 
         layout = QtWidgets.QVBoxLayout()
 
-        layout.addWidget(self.instruction_label)
+        layout.addWidget(self.shotlist_label)
         layout.addWidget(self.shot_list)
+        layout.addWidget(self.workfilelist_label)
+        layout.addWidget(self.workfile_list)
         layout.addItem(spacer)
-        layout.addWidget(self.seq_label)
+        layout.addWidget(self.instruction_label)
+        layout.addWidget(self.seqname_label)
         layout.addWidget(self.seq_name)
 
-        layout.addWidget(self.shot_label)
+        layout.addWidget(self.shotname_label)
         layout.addWidget(self.shot_name)
         
         layout.addLayout(range_layout)
@@ -76,8 +88,27 @@ class ShotManager(QtWidgets.QWidget):
         self.setLayout(layout)
 
         # set fixed size
-        self.setFixedSize(600, 400)
+        self.setMinimumSize(600, 400)
+        
+        # connect slots
+        self.shot_list.itemSelectionChanged.connect(self.populate_workfiles)
 
+    def populate_workfiles(self):
+        """Adds the hip workfiles to the workfile list based on the selected item in the shot_list.
+        """
+        self.workfile_list.clear()
+        selected_items = self.shot_list.selectedItems()
+        
+        if selected_items:
+            first = selected_items[0]
+            shot_name = first.text()
+            shot_id = self.database.get_shot_id(shot_name)
+            if shot_id:
+                workfiles = self.database.get_shot_workfiles(shot_id)
+                workfiles.sort(reverse=True)
+                if workfiles:
+                    self.workfile_list.addItems(workfiles)
+            
     def closeEvent(self, event: QtGui.QCloseEvent) -> None:
         """Handle the close event to ensure database connection is closed."""
         self.database.close()

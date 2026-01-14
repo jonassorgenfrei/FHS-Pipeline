@@ -24,24 +24,18 @@ class Houdini_ShotManager(ShotManager):
         hip_file_path=os.path.join(shot_directory, f"{shot_name}.v001.hip")
         hou.hipFile.save(file_name=hip_file_path)
         
-        self.init_scene(shot_name)
-        
-        # set frame range
-        hou.playbar.setFrameRange(start_frame, end_frame)
-        hou.playbar.setPlaybackRange(start_frame, end_frame)
-        hou.setFrame(start_frame)
-        
-        # set env variables
-        hou.hscript(f"setenv {FHS_Shot}={shot_name}")
+        self.init_scene(shot_name, start_frame, end_frame)
         
         # save hip file after manual changes
         hou.hipFile.save(file_name=hip_file_path)
         return hip_file_path
     
-    def init_scene(self, shot_name:str):
+    def init_scene(self, shot_name:str, start_frame:int, end_frame:int):
         """Initialize the Houdini scene for the shot.   
         Args:
             shot_name (str): _name of the shot
+            start_frame (int): _start frame of the shot
+            end_frame (int): _end frame of the shot
         """
 
         # clear hip file to create an empty one
@@ -52,4 +46,12 @@ class Houdini_ShotManager(ShotManager):
         # set to created hip file
         sublayer.parm("filepath1").set("$HIP/usd/shot.usda")
         sublayer.parm("reload").pressButton()
+        
+        # set frame range
+        hou.playbar.setFrameRange(start_frame, end_frame)
+        hou.playbar.setPlaybackRange(start_frame, end_frame)
+        hou.setFrame(start_frame)
+        
+        # set env variables
+        hou.hscript(f"setenv FHS_Shot={shot_name}")
         
