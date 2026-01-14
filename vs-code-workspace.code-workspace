@@ -4,14 +4,14 @@
 			"path": "."
 		},
 		{
-			"path": "C:/Users/fhs48394/Documents/Projects"
+			"path": "D:/Documents/FHS"
 		}
 	],
 	"settings": {
 		"python.analysis.typeCheckingMode": "basic",
 		"python.analysis.extraPaths": [
-			"C:/Users/fhs48394/Documents/FHS-Pipeline/python",
-			"C:/Program Files/Side Effects Software/Houdini 20.5.684/houdini/python3.11libs"
+			"D:/Documents/Development/FH_Salzburg/pipeline/python",
+			"C:/Program Files/Side Effects Software/Houdini 21.0.559/houdini/python3.11libs"
 		],
 		"extensions.recommendations": [
 			"ms-python.python",

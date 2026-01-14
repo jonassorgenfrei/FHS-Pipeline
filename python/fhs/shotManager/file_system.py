@@ -39,4 +39,9 @@ def create_shot_structure(
     else:
         raise ValueError(f"Shot '{seq_name}_{shot_name}' already exists.")
 
+    # subdirectories
+    subdirs = ["animation", "cache", "comp", "layout", "models", "plates", "renders", "usd"]
+    for subdir in subdirs:
+        os.makedirs(os.path.join(shot_directory, subdir))
+
     return shot_directory
