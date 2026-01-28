@@ -1,6 +1,11 @@
 import hou
 import os
 from fhs.shotManager.shotManager import ShotManager
+try:
+    from PySide6 import QtWidgets
+except ModuleNotFoundError:
+    from PySide2 import QtWidgets
+    
 
 class Houdini_ShotManager(ShotManager):
     def __init__(self):
@@ -30,6 +35,16 @@ class Houdini_ShotManager(ShotManager):
         hou.hipFile.save(file_name=hip_file_path)
         return hip_file_path
     
+    def open_workfile(self, item: QtWidgets.QListWidgetItem) -> None:
+        """Open the selected workfile in the DCC application."""
+        workfile_path = item.text()
+        
+        if workfile_path.endswith(".hip") or workfile_path.endswith(".hipnc"):
+            hou.hipFile.load(workfile_path)
+            self.close()
+        else:
+            super().open_workfile(item)
+
     def init_scene(self, shot_name:str, start_frame:int, end_frame:int):
         """Initialize the Houdini scene for the shot.   
         Args:
@@ -54,4 +69,5 @@ class Houdini_ShotManager(ShotManager):
         
         # set env variables
         hou.hscript(f"setenv FHS_Shot={shot_name}")
+        hou.hscript(f"setenv FHS_Cache=D:/Documents/FHS/CACHES")
         

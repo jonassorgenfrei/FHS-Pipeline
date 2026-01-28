@@ -120,9 +120,9 @@ class Database():
 
 if __name__ == "__main__":
     database = Database()
-    database.create_shot("shot002", 1001, 1010)
-    print(database.get_shot_names())
+    #database.create_shot("shot002", 1001, 1010)
+    #print(database.get_shot_names())
     
     shot_id = database.get_shot_id("shot002")
-    database.create_workfile(shot_id, "my_hipfile.shot002.v002.hip")
+    database.create_workfile(shot_id, "my_hipfile.shot002.v002.ma")
     print(database.get_shot_workfiles(shot_id))

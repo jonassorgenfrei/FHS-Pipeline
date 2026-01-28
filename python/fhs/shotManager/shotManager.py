@@ -92,6 +92,7 @@ class ShotManager(QtWidgets.QWidget):
         
         # connect slots
         self.shot_list.itemSelectionChanged.connect(self.populate_workfiles)
+        self.workfile_list.itemDoubleClicked.connect(self.open_workfile)
 
     def populate_workfiles(self):
         """Adds the hip workfiles to the workfile list based on the selected item in the shot_list.
@@ -147,10 +148,15 @@ class ShotManager(QtWidgets.QWidget):
                 raise ValueError("Invalid frame range specified.")
             
             shot_directory: str = create_shot_structure(shot_name, seq_name)
-            usd_file = create_shot_usd_structure(os.path.join(shot_directory, "usd"))
-                        
+            usd_file = create_shot_usd_structure(os.path.join(shot_directory, "usd"), shot_name, start_frame, end_frame)
+
             workfile = self.create_workfile(shot_name, shot_directory, start_frame, end_frame)
-            self.insert_shot(shot_name, start_frame, end_frame)
+            
+            self.database.create_shot(shot_name, start_frame, end_frame)
+            
+            shot_id = self.database.get_shot_id(shot_name)
+            if shot_id:
+                self.database.create_workfile(shot_id, workfile)
         except ValueError as e:
             QtWidgets.QMessageBox.warning(self, "Input Error", str(e))
             return False
@@ -174,14 +180,10 @@ class ShotManager(QtWidgets.QWidget):
         """
         return ""
 
-    def insert_shot(self, shot_name:str, start_frame:int, end_frame:int):
-        """Insert the created shot into the database.
-        Args:
-            shot_name (str): _name of the shot
-            start_frame (int): _start frame of the shot
-            end_frame (int): _end frame of the shot
-        """
-        self.database.create_shot(shot_name, start_frame, end_frame)
+    def open_workfile(self, item: QtWidgets.QListWidgetItem) -> None:
+        """Open the selected workfile in the DCC application."""
+        QtWidgets.QMessageBox.warning(self, "Open Workfile Error", f"Can't open workfile {item.text()}")
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
