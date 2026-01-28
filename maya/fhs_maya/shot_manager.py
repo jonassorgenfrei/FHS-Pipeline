@@ -31,7 +31,7 @@ class Maya_ShotManager(ShotManager):
         cmds.file(rename=ma_file_path)
         cmds.file(save=True, type="mayaAscii")  
         
-        self.init_scene(shot_name, start_frame, end_frame)
+        self.init_scene(shot_directory, shot_name, start_frame, end_frame)
         
         # save ma file after manual changes
         cmds.file(save=True, type="mayaAscii")
@@ -48,9 +48,10 @@ class Maya_ShotManager(ShotManager):
         else:
             super().open_workfile(item)
 
-    def init_scene(self, shot_name:str, start_frame:int, end_frame:int):
+    def init_scene(self, shot_directory:str, shot_name:str, start_frame:int, end_frame:int):
         """Initialize the Maya scene for the shot.   
         Args:
+            shot_directory (str): _path to the shot directory
             shot_name (str): _name of the shot
             start_frame (int): _start frame of the shot
             end_frame (int): _end frame of the shot
@@ -58,3 +59,9 @@ class Maya_ShotManager(ShotManager):
         # set frame range
         cmds.playbackOptions(min=start_frame, max=end_frame)
         cmds.currentTime(start_frame)
+        
+        # create USD stage
+        stage = cmds.createNode("mayaUsdProxyShape", name="usdStageShape")
+        usd_path=os.path.join(shot_directory, "usd", "shot.usda").replace("\\", "/")
+        cmds.setAttr(stage + ".filePath", usd_path, type="string")
+
